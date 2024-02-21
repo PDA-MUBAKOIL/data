@@ -11,7 +11,7 @@ const BASE_URL = "https://thesool.com/front/find/M000000082";
 const IMG_BASE_URL = 'https://thesool.com'
 
 // total 102 pages : 240220
-const TOTAL_PAGE_COUNT = 1;
+const TOTAL_PAGE_COUNT = 102;
 
 const PRODUCT_INFO_FIELD = ['type', 'material', 'alcohol', 'cap', 'awards', 'etc'];
 const PLACE_INFO_FIELD = ['brewer', 'address', 'homepage', 'tel'];
@@ -78,6 +78,9 @@ async function getDetailInfo(list) {
     console.log(`collecting ${len} items`);
 
     for(let i=0; i<len; i++) {
+        if(i % 50 === 1) {
+            console.log(`[${i+1}/${len}] items collected`);
+        }
         let productId = list[i];
         const response = await fetchData(`${BASE_URL}/view.do?productId=${productId}`);
 
