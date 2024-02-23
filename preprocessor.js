@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { saveFile } from './utils/file_ctrl.js';
-import { verifyTags } from './utils/verify_tag.js';
+import { verifyTags } from './utils/tag_verifier.js';
 
 const FILE_PATH = 'output/gpt/details.json';
 const OUTPUT_DIR = 'output/out';
