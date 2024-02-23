@@ -1,15 +1,3 @@
-/**
- * TODO: 
- * 1. 주소 변경
- *  a. 충청북도 -> 충북 | 대전광역시 -> 대전 | 서울특별시, 서울시 -> 서울
- *  b. 올바르지 않은 주소 제품 제거
- * 2. 양조장 추출 및 중복 제거
- * 3. field 중 증간 - \n | \t 제거
- * 4. etc 삭제 ?
- * 5. imgurl BASE 추가
- * 6. 음식 태그 replace(" 및 ", '/')
- * 
- */
 import fs from 'fs';
 import { saveFile } from './utils/file_ctrl.js';
 
@@ -60,14 +48,19 @@ for(let i=0; i<jsonData.length; i++) {
         }
         brewers.set(brewer.name, brewer);
     }
+    product.region = product.address.split(' ')[0];
+
     // remove white spaces
-    product.cap.replace('\n | \t', '');
-    product.alcohol.replace('\n | \t', '');
+    product.cap = product.cap.replaceAll('\n|\t', '');
 
     // add image base URL
     product.imgUrl = IMG_BASE_URL + product.imgUrl;
 
-    // TODO: drop fields
+    // trim food tags
+    product.tags = trimFoodTags(item.foodTags);
+
+    // multiple alcohol values
+    product.alcohol = convertAlcohol(item.alcohol);
 
     products.push(product);
 }
@@ -75,7 +68,7 @@ for(let i=0; i<jsonData.length; i++) {
 console.log(`${invalidAddrCnt} items dropped for invalid address`);
 
 let brewersArr = [...brewers.values()];
-console.log(brewersArr);
+// console.log(brewersArr);
 
 saveFile(OUTPUT_DIR, PRODUCT_FILE_NAME, products);
 saveFile(OUTPUT_DIR, BREWER_FILE_NAME, brewersArr);
@@ -103,4 +96,27 @@ function convertAddress(addr) {
     else return "invalid";
         
     return addr.replace(prefix, modifiedPrefix);
+}
+
+/**
+ * Trim tags
+ * @param {string[]} tags tag list
+ * @returns {string[]} list of tags without whitespace
+ */
+function trimFoodTags(tags) {
+    return Array.isArray(tags) ? tags.map((elem) => elem.trim()) : null;
+}
+
+/**
+ * Trim and handle multiple alcohol field values
+ * @param {*} str alcohol
+ * @returns converted to format
+ */
+function convertAlcohol(str) {
+    str = str.replace(/%+/g,"%");
+
+    let values = str.split('%').map((elem) => elem.trim()+"%");
+    values.pop();
+
+    return values.join(', ');
 }
