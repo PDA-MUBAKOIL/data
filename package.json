@@ -25,6 +25,7 @@
     "htmlparser2": "^8.0.2",
     "mime-db": "^1.52.0",
     "mime-types": "^2.1.35",
+    "mongoose": "^8.2.0",
     "nth-check": "^2.1.1",
     "openai": "^4.0.0",
     "parse5": "^7.1.2",
