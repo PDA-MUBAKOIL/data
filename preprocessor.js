@@ -69,6 +69,8 @@ for(let i=0; i<jsonData.length; i++) {
 
     // multiple alcohol values
     product.percent = convertAlcohol(item.alcohol);
+    product.capacity = item.capacity;
+    product.material = item.material;
 
     products.push(product);
 }

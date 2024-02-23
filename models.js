@@ -9,6 +9,8 @@ const DrinkSchema = new mongoose.Schema({
     description: {type: String},
     brewerId: {type: mongoose.Schema.Types.ObjectId, ref: 'Brewer'},
     region: {type: String, required: true},
+    capacity: {type:String},
+    material: {type:String},
 }, {
     toObject: {virtuals: true},
     toJSON: {virtuals: true},
