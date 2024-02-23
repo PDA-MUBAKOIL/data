@@ -177,7 +177,7 @@ function extractProductDetail(content, $) {
     })
 
     ret.description = $(content).find('.intro .text').text().replaceAll("\n", '').trim();
-    ret.food = $(content).find('.food .text').text().trim();
+    ret.food = $(content).find('.food .text').text().trim().replaceAll("\n", '');
 
     const $placeInfoList = $(content).find('.place .text li');
 
