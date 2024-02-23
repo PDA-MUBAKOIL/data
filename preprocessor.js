@@ -60,7 +60,7 @@ for(let i=0; i<jsonData.length; i++) {
     product.tags = trimFoodTags(item.foodTags);
 
     // multiple alcohol values
-    product.alcohol = convertAlcohol(item.alcohol);
+    product.percent = convertAlcohol(item.alcohol);
 
     products.push(product);
 }
@@ -104,7 +104,7 @@ function convertAddress(addr) {
  * @returns {string[]} list of tags without whitespace
  */
 function trimFoodTags(tags) {
-    return Array.isArray(tags) ? tags.map((elem) => elem.trim()) : null;
+    return Array.isArray(tags) ? tags.map((elem) => elem.trim().replace(' 및 ', '/')) : null;
 }
 
 /**
