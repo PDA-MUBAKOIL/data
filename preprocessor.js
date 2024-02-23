@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { saveFile } from './utils/file_ctrl.js';
+import { verifyTags } from './utils/verify_tag.js';
 
 const FILE_PATH = 'output/gpt/details.json';
 const OUTPUT_DIR = 'output/out';
@@ -26,6 +27,7 @@ let products = [];
 let brewers = new Map();
 
 let invalidAddrCnt = 0;
+let emptyTagCnt = 0;
 
 for(let i=0; i<jsonData.length; i++) {
     let item = jsonData[i];
@@ -57,7 +59,13 @@ for(let i=0; i<jsonData.length; i++) {
     product.imgUrl = IMG_BASE_URL + product.imgUrl;
 
     // trim food tags
-    product.tags = trimFoodTags(item.foodTags);
+    const tagList = verifyTags(trimFoodTags(item.foodTags));
+
+    if(tagList === null) {
+        emptyTagCnt ++;
+        continue;
+    }
+    product.tags = verifyTags(tagList);
 
     // multiple alcohol values
     product.percent = convertAlcohol(item.alcohol);
@@ -65,7 +73,7 @@ for(let i=0; i<jsonData.length; i++) {
     products.push(product);
 }
 
-console.log(`${invalidAddrCnt} items dropped for invalid address`);
+console.log(`${invalidAddrCnt} items dropped for invalid address and ${emptyTagCnt} for empty tag`);
 
 let brewersArr = [...brewers.values()];
 // console.log(brewersArr);
