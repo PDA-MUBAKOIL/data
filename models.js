@@ -18,7 +18,8 @@ const DrinkSchema = new mongoose.Schema({
 DrinkSchema.virtual("vBrewer", {
     ref: 'Brewer',
     localField: 'brewerId',
-    foreignField: '_id'
+    foreignField: '_id',
+    justOne: true,
 });
 
 // Review Model
