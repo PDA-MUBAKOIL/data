@@ -17,6 +17,7 @@ const PREFIX = [
 const siRegexp = new RegExp("(특별시|광역시|특별자치시|시)$");
 const doRegexp = new RegExp("(북도|남도)$");
 const jejuRegexp = new RegExp("(특별자치도|도)$");
+const escpaeRegexp = /(&amp;.*?;|&amp;)/g;
 
 const jsonFile = fs.readFileSync(FILE_PATH, 'UTF-8');
 const jsonData = JSON.parse(jsonFile);
@@ -39,6 +40,7 @@ for(let i=0; i<jsonData.length; i++) {
         invalidAddrCnt ++;
         continue;
     }
+    product.address = product.address.replaceAll(escpaeRegexp, '');
 
     // collect brewers
     if(brewers.get(item.brewer) === undefined) {
@@ -53,7 +55,8 @@ for(let i=0; i<jsonData.length; i++) {
     product.region = product.address.split(' ')[0];
 
     // remove white spaces
-    product.cap = product.cap.replaceAll('\n|\t', '');
+    product.capacity = product.cap.replaceAll('\n|\t', '');
+    product.description = item.description.replaceAll(escpaeRegexp, '');
 
     // add image base URL
     product.imgUrl = IMG_BASE_URL + product.imgUrl;
@@ -69,7 +72,6 @@ for(let i=0; i<jsonData.length; i++) {
 
     // multiple alcohol values
     product.percent = convertAlcohol(item.alcohol);
-    product.capacity = item.capacity;
     product.material = item.material;
 
     products.push(product);
