@@ -72,6 +72,7 @@ for(let i=0; i<jsonData.length; i++) {
 
     // multiple alcohol values
     product.percent = convertAlcohol(item.alcohol);
+    product.spercent = splitAlcohol(product.percent);
     product.material = item.material;
 
     products.push(product);
@@ -131,4 +132,17 @@ function convertAlcohol(str) {
     values.pop();
 
     return values.join(', ');
+}
+
+/**
+ * split and parse alcohol from given string
+ * @param {*} str 
+ * @returns {Number[]} each alcohol values
+ */
+function splitAlcohol(str) {
+    let values = str.split("%");
+    
+    return values.map((elem) => {
+        return Number.parseFloat(elem);
+    }).slice(0, values.length-1);
 }

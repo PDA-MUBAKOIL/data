@@ -2,12 +2,12 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv';
 
 import { loadData } from './utils/file_ctrl.js';
-import { Drink, Brewer } from './models.js';
+import { Drinks, Brewer } from './models.js';
 
 dotenv.config();
 const MONGO_HOST = process.env.MONGO_HOST_URL;
 const DATA_DIR = 'output/out';
-const DROP_BEFORE_ACTION = true;
+const DROP_BEFORE_ACTION = false;
 
 // DB connection
 mongoose.connect(MONGO_HOST, {
@@ -21,7 +21,7 @@ mongoose.connect(MONGO_HOST, {
     if(drop) {
         console.log("Drop existing collections")
         let cnt = 0;
-        cnt += await Drink.collection?.drop() ? 1 : 0;
+        cnt += await Drinks.collection?.drop() ? 1 : 0;
         cnt += await Brewer.collection?.drop() ? 1 : 0;
         return cnt;
     }
@@ -40,7 +40,7 @@ mongoose.connect(MONGO_HOST, {
 
     console.log(drinkDataWithBrewerId[0]);
 
-    await Drink.insertMany(drinkDataWithBrewerId);
+    await Drinks.insertMany(drinkDataWithBrewerId);
 
     return;
 }).then(() => {
