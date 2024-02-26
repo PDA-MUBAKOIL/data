@@ -140,9 +140,10 @@ function convertAlcohol(str) {
  * @returns {Number[]} each alcohol values
  */
 function splitAlcohol(str) {
-    let values = str.split("%");
+    str = str.replaceAll('%', '');
+    let values = str.split(",");
     
     return values.map((elem) => {
         return Number.parseFloat(elem);
-    }).slice(0, values.length-1);
+    });
 }

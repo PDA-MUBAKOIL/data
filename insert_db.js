@@ -7,7 +7,7 @@ import { Drinks, Brewer } from './models.js';
 dotenv.config();
 const MONGO_HOST = process.env.MONGO_HOST_URL;
 const DATA_DIR = 'output/out';
-const DROP_BEFORE_ACTION = false;
+const DROP_BEFORE_ACTION = true;
 
 // DB connection
 mongoose.connect(MONGO_HOST, {
